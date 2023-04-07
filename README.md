@@ -47,7 +47,7 @@ Our end-to-end model comprises **a feature builder and a classifier**. The featu
   python train.py
   ```
 
-### 4.Train in your Datasets
+### 4.Train in your Datasets🦉
 
 Our model is based on a variety of heterogeneous information, please be prepared to process good drug features, disease features and protein features, and modify the following parameters for the location of the data, if you need to get the preprocessing code from raw chemical information to features, please contact neound986@gmail.com.
 
