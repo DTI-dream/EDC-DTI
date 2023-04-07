@@ -1,4 +1,4 @@
-![](assets\logo.png)
+![logo](assets\logo.png)
 
 # EDC-DTI
 
