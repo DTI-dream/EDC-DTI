@@ -1,4 +1,4 @@
-![](C:\Users\12624\Desktop\EDC-DTI\assets\logo.png)
+![](assets\logo.png)
 
 # EDC-DTI
 
