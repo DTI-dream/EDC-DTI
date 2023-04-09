@@ -1,5 +1,3 @@
-# 实现protein_feature和drug_feature的拼接
-
 import torch
 from torch import nn
 from torch import Tensor
