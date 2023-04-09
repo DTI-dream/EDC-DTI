@@ -7,7 +7,6 @@ from dti_dataset import DTIDataset
 import sys
 import os
 
-# for stable training
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -21,11 +20,10 @@ import torch.optim as optim
 from model_trainer import ModelTrainer
 from loss_curve import *
 
-setup_seed(12345)  # fix random seed
+setup_seed(12345) 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 if __name__ == '__main__':
-    # Parse command line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument('--drug_feature_path', type=str, required=False,
                         default=r"../Data/feature for protein drug/drug_vector_d100.txt",
@@ -41,11 +39,9 @@ if __name__ == '__main__':
                         help='Path to the train_val directory')
     args = parser.parse_args()
 
-    # create logger
     res_dir = os.path.join(BASE_DIR, "..", "..", "results")
     logger, log_dir = make_logger(res_dir)
 
-    # Loading features
     drug_feature_path = args.drug_feature_path
     drugs_feature = np.loadtxt(drug_feature_path)
 
@@ -55,7 +51,6 @@ if __name__ == '__main__':
     disease_feature_path = args.disease_feature_path
     diseases_feature = np.load(disease_feature_path, allow_pickle=True)
 
-    # Loading dataset for src/val/test
     set_path = args.train_val_path
     train_set = np.load(os.path.join(set_path, 'train_set_1_1.npy'), allow_pickle=True)
     val_set = np.load(os.path.join(set_path, 'val_set_1_1.npy'), allow_pickle=True)
@@ -70,17 +65,14 @@ if __name__ == '__main__':
     train_loader = DataLoader(dataset=train_data, batch_size=cfg.batch_size, shuffle=True, num_workers=cfg.workers)
     valid_loader = DataLoader(dataset=val_data, batch_size=cfg.valid_batchSize, num_workers=cfg.workers)
 
-    # generate model
     model = HandSomeRAN(drug_in_channel=100, protein_in_channel=400, drug_out_channel=200,
                         protein_out_channel=200)
     model.to(device)
 
-    # step3: Loss functions, optimizers
     loss_f = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001, weight_decay=0.001)
     scheduler = optim.lr_scheduler.MultiStepLR(optimizer, gamma=cfg.factor, milestones=cfg.milestones)
 
-    # step4: iteration
     logger.info("cfg:\n{}\n loss_f:\n{}\n scheduler:\n{}\n optimizer:\n{}\n model:\n{}".format(cfg, loss_f, scheduler,
                                                                                                optimizer, model))
 
@@ -103,7 +95,6 @@ if __name__ == '__main__':
                        optimizer.param_groups[0]["lr"], auc_train, auc_valid, f1_valid))
         scheduler.step()
 
-        # save loss and acc
         loss_rec["src"].append(loss_train), loss_rec["valid"].append(loss_valid)
         acc_rec["src"].append(acc_train), acc_rec["valid"].append(acc_valid)
 
@@ -111,7 +102,6 @@ if __name__ == '__main__':
         plot_line(plt_x, loss_rec["src"], plt_x, loss_rec["valid"], mode="loss", out_dir=log_dir)
         plot_line(plt_x, acc_rec["src"], plt_x, acc_rec["valid"], mode="acc", out_dir=log_dir)
 
-        # model save
         if best_acc < acc_valid or epoch == cfg.max_epoch - 1:
             best_epoch = epoch if best_acc < acc_valid else best_epoch
             best_acc = acc_valid if best_acc < acc_valid else best_acc
