@@ -21,33 +21,14 @@ class RanEncoder(nn.Module):
         :param x: shape(bs,features_dim)
         :return:
         """
-        # 首先将其转化为(bs,out_channel,per_num,per_num)的形式
+        
         x_nums = x.shape[0]
         x = torch.reshape(x, (-1, self.in_channel, self.per_dim, self.per_dim))
         out = self.conv1(x)
         out = self.bn(out)
         out = self.drop_out(out)
         out = self.relu(out)
-        # 再降维(bs,out_channel,out)
+        
         out = torch.reshape(out, (x_nums, self.out_channel, -1))
 
         return out
-
-
-if __name__ == '__main__':
-    exp = torch.randn(4, 16, 36)
-    print(exp.shape)
-    model = RanEncoder(6, 16, 8)
-    y = model(exp)
-    print(y.shape)
-    # a = torch.tensor([[[[1, 2], [3, 4]], [[5, 6], [7, 8]]],
-    #                   [[[9, 10], [11, 12]], [[13, 14], [15, 16]]]])
-    # b = torch.reshape(a, (2, -1))
-    # print(b)
-
-# a = torch.rand((4, 12))
-# b = torch.rand((4, 12))
-#
-# c = torch.concat((a, b), dim=1)
-#
-# print(c.size())
