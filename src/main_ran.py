@@ -1,12 +1,7 @@
-"""
-Implement the model of the whole EDC-DTI
-"""
-
 import torch
 import numpy as np
 import os
 from torch import nn
-# cfg引入
 from src.configs import cfg
 import sys
 
