@@ -5,17 +5,8 @@ import numpy as np
 import random
 
 
-def plot_line(train_x, train_y, valid_x, valid_y, mode, out_dir):
-    """
-    绘制训练和验证集的loss曲线/acc曲线
-    :param train_x: epoch
-    :param train_y: 标量值
-    :param valid_x:
-    :param valid_y:
-    :param mode:  'loss' or 'acc'
-    :param out_dir:
-    :return:
-    """
+def plot_line(train_x, train_y, valid_x, valid_y, mode, out_dir)
+  
     plt.plot(train_x, train_y, label='Train')
     plt.plot(valid_x, valid_y, label='Valid')
 
@@ -32,8 +23,8 @@ def plot_line(train_x, train_y, valid_x, valid_y, mode, out_dir):
 def setup_seed(seed=12345):
     np.random.seed(seed)
     random.seed(seed)
-    torch.manual_seed(seed)     # cpu
+    torch.manual_seed(seed)    
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
         torch.backends.cudnn.deterministic = True
-        torch.backends.cudnn.benchmark = True       # 训练集变化不大时使训练加速，是固定cudnn最优配置，如卷积
+        torch.backends.cudnn.benchmark = True       
