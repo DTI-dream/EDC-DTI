@@ -1,9 +1,3 @@
-"""
-用于生成每一对dti
-格式
-((protein_feature,drug_feature),label)
-"""
-
 import os
 
 import numpy as np
