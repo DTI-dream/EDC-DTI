@@ -90,9 +90,8 @@ if __name__ == '__main__':
 
         logger.info(
             "Epoch[{:0>3}/{:0>3}] Train Acc: {:.2%} Valid Acc:{:.2%} Train loss:{:.4f} Valid loss:{:.4f} LR:{} "
-            "train_auc:{:.2%}, valid_auc:{:.2%} valid_f1:{:.2%}". \
-                format(epoch + 1, cfg.max_epoch, acc_train, acc_valid, loss_train, loss_valid,
-                       optimizer.param_groups[0]["lr"], auc_train, auc_valid, f1_valid))
+           .format(epoch + 1, cfg.max_epoch, acc_train, acc_valid, loss_train, loss_valid,
+                       optimizer.param_groups[0]["lr"], ))
         scheduler.step()
 
         loss_rec["src"].append(loss_train), loss_rec["valid"].append(loss_valid)
