@@ -12,6 +12,8 @@ In this study, we propose an **end-to-end** deep **collaborative** learning mode
 
 Our end-to-end model comprises **a feature builder and a classifier**. The feature builder consists of two collaborative feature construction algorithms that extract molecular properties and network topology properties. The classifier is composed of a feature **encoder** and a feature **decoder**, which are designed for feature integration and DTI prediction, respectively. The feature encoder, primarily based on the **improved graph attention network (GAT)**, integrates heterogeneous information into drug features and target features separately. The feature decoder consists of multiple neural networks for making predictions.
 
+We aimed to minimize the runtime while not significantly compromising the model's performance. Therefore, we removed the transformer module from the original model in our final version and optimized the entire network. Extensive experiments have demonstrated that the performance of the model has not been degraded.
+
 ### 2.code overview🤖
 
 #### code structure
